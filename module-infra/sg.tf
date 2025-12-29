@@ -26,7 +26,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_ssh" {
   description = "Allow SSH from specfic CIDR"
 }
 
-resource "aws_vpc_security_group_egress_rule" "app_port" {
+resource "aws_vpc_security_group_ingress_rule" "app_port" {
   security_group_id = aws_security_group.tool.id
   cidr_ipv4 = "0.0.0.0/0"
   from_port = var.port
