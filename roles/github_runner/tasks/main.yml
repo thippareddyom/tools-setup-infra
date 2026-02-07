@@ -1,3 +1,19 @@
 - name: set prompt
   ansible.builtin.shell: set-prompt {{  tool_name }}
 
+- name: add user
+  ansible.builtin.user: 
+    name: github
+  
+- name: create github folder
+  ansible.builtin.file:
+    path: /actions-runner
+    owner: github
+    group: github
+
+- name: Download latest package
+  ansible.builtin.unarchive:
+    src: https://github.com/actions/runner/releases/download/v2.331.0/actions-runner-linux-x64-2.331.0.tar.gz
+    dest: /actions-runner
+    owner: github
+    group: github
