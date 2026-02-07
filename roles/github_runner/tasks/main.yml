@@ -10,6 +10,7 @@
     path: /actions-runner
     owner: github
     group: github
+    state: directory
 
 - name: Download latest package
   ansible.builtin.unarchive:
