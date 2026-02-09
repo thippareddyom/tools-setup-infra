@@ -31,6 +31,7 @@ resource "aws_route53_record" "private" {
 
 resource "aws_route53_record" "public" {
   zone_id = data.aws_route53_zone.get_zone_id.id
+  //count = aws_instance.tool.public_ip != null ? 1 : 0
   records = [aws_instance.tool.public_ip]
   ttl = 10
   type = "A"
