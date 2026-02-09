@@ -1,53 +1,57 @@
 - name: set prompt
   ansible.builtin.shell: set-prompt {{  tool_name }}
 
-- name: add user
-  ansible.builtin.user: 
-    name: github
-  
-- name: create github folder
-  ansible.builtin.file:
-    path: /actions-runner
-    owner: github
-    group: github
-    state: directory
-
 - name: check already runner configured status
   ansible.builtin.stat:
     path: /actions-runner/.runner
   register: runner_stat
 
-- name: debug
-  debug:
-    msg: "{{ runner_stat }}"
-
-- name: Download latest package
-  ansible.builtin.unarchive:
-    src: https://github.com/actions/runner/releases/download/v2.331.0/actions-runner-linux-x64-2.331.0.tar.gz
-    dest: /actions-runner
-    owner: github
-    group: github
-    remote_src: yes
-
-  
-- name: configure github runner
-  ansible.builtin.shell: ./config.sh --url https://github.com/thippareddyom --token AG7LUZN3YRCU6NUQA25P32LJQ5JN4 --unattended
-  args: 
-    chdir: /actions-runner
-  become_user: github
+- name: Github actions setup
   when: not runner_stat.stat.exists
+  block:
+    
+    - name: add user
+      ansible.builtin.user: 
+        name: github
 
-- name: copy service file
-  ansible.builtin.template:
-    src: github-runner.service
-    dest: /etc/systemd/system/github-runner.service
+    - name: create github folder
+      ansible.builtin.file:
+        path: /actions-runner
+        owner: github
+        group: github
+        state: directory
 
-- name: start 
-  ansible.builtin.systemd_service:
-    name: github-runner
-    state: started
-    enabled: true
-    daemon-reload: yes
+    - name: debug
+      debug:
+        msg: "{{ runner_stat }}"
+
+    - name: Download latest package
+      ansible.builtin.unarchive:
+        src: https://github.com/actions/runner/releases/download/v2.331.0/actions-runner-linux-x64-2.331.0.tar.gz
+        dest: /actions-runner
+        owner: github
+        group: github
+        remote_src: yes
+
+
+    - name: configure github runner
+      ansible.builtin.shell: ./config.sh --url https://github.com/thippareddyom --token AG7LUZN3YRCU6NUQA25P32LJQ5JN4 --unattended
+      args: 
+        chdir: /actions-runner
+      become_user: github
+
+
+    - name: copy service file
+      ansible.builtin.template:
+        src: github-runner.service
+        dest: /etc/systemd/system/github-runner.service
+
+    - name: start 
+      ansible.builtin.systemd_service:
+        name: github-runner
+        state: started
+        enabled: true
+        daemon-reload: yes
 
 - name: copy hashicorp repo file
   ansible.builtin.template:
