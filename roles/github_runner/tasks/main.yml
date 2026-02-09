@@ -61,9 +61,10 @@
     state: present
 
 - name: install helm 
-  ansible.builtin.shell:
+  ansible.builtin.shell: |
     curl -L -O https://get.helm.sh/helm-v3.17.2-linux-amd64.tar.gz
     tar -xf helm-v3.17.2-linux-amd64.tar.gz
-    mv linux-amd64/helm /bin/helm
+    mv linux-amd64/helm /usr/local/bin/helm
+    rm -rf helm-v3.17.2-linux-amd64.tar.gz linux-amd64
   args:
     chdir: /tmp
