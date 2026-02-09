@@ -9,7 +9,6 @@
 - name: Github actions setup
   when: not runner_stat.stat.exists
   block:
-    
     - name: add user
       ansible.builtin.user: 
         name: github
@@ -35,7 +34,7 @@
 
 
     - name: configure github runner
-      ansible.builtin.shell: ./config.sh --url https://github.com/thippareddyom --token AG7LUZJDBIAQDCXNWY2IZWDJRG7WC --unattended
+      ansible.builtin.shell: ./config.sh --url https://github.com/thippareddyom --token AG7LUZMIMYAS3T7CWJFCA2DJRHDAW --unattended
       args: 
         chdir: /actions-runner
       become_user: github
