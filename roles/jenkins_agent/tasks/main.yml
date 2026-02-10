@@ -1,0 +1,16 @@
+- name: install jenkins
+  ansible.builtin.dnf:
+    name: 
+      - java-17-openjdk
+      - fontconfig
+    state: present
+
+- name: add jenkins user
+  ansible.builtin.user:
+    name: jenkins
+
+- name: create jenkins folder
+  ansible.builtin.file:
+    path: /jenkins
+    owner: jenkins
+    group: jenkins
