@@ -20,6 +20,15 @@ variable "tools" {
         Resource= []
       }
     }
+
+    jenkins_agent={
+      instance_type="t3.micro"
+      port=8080
+      iam_policy={
+        Action=[]
+        Resource=[]
+      }
+    }
   }
 }
 
