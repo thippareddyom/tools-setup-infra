@@ -31,7 +31,7 @@
 
 
 - name: configure github runner
-  ansible.builtin.shell: ./config.sh --url https://github.com/thippareddyom --token AG7LUZP5FYBD4K2S7PHJMGLJRHI3I --unattended
+  ansible.builtin.shell: ./config.sh --url https://github.com/thippareddyom --token AG7LUZKZ7BWRNTQPOTX75C3JRRCYC --unattended
   args: 
     chdir: /actions-runner
   become_user: github
