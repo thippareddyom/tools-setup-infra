@@ -25,15 +25,15 @@
     group: github
     remote_src: yes
 
-- name: Get GitHub runner token
-  amazon.aws.ssm_parameter:
-    name: "/github/runner/token"
-    with_decryption: yes
-    region: us-east-1
-  register: runner_token
+# - name: Get GitHub runner token
+#   amazon.aws.ssm_parameter:
+#     name: "/github/runner/token"
+#     with_decryption: yes
+#     region: us-east-1
+#   register: runner_token
 
 - name: configure github runner
-  ansible.builtin.shell: ./config.sh --url https://github.com/thippareddyom --token {{runner_token }}  --unattended
+  ansible.builtin.shell: ./config.sh --url https://github.com/thippareddyom --token {{ runner_token }}  --unattended
   args: 
     chdir: /actions-runner
   become_user: github
