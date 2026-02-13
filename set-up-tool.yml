@@ -1,5 +1,8 @@
 - name: tool set up
   hosts: all
   become: yes
+  collections:
+    - amazon.aws
+
   roles:
     - "{{ tool_name }}"
