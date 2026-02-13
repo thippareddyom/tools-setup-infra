@@ -5,7 +5,7 @@ variable "tools" {
     #   port= 8200
     # }
     github-runner={
-      instance_type= "t3.micro"
+      instance_type= "t3.small"
       port= 443
       iam_policy= {
         Action =   ["*"]
