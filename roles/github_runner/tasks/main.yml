@@ -17,10 +17,6 @@
     group: github
     state: directory
 
-- name: debug
-  debug:
-    msg: "{{ runner_stat }}"
-
 - name: Download latest package
   ansible.builtin.unarchive:
     src: https://github.com/actions/runner/releases/download/v2.331.0/actions-runner-linux-x64-2.331.0.tar.gz
@@ -29,9 +25,14 @@
     group: github
     remote_src: yes
 
+- name: Get GitHub runner token
+  aws_ssm:
+    name: /github/runner/token
+    with_decryption: yes
+  register: runner_token
 
 - name: configure github runner
-  ansible.builtin.shell: ./config.sh --url https://github.com/thippareddyom --token AG7LUZJ5HMXQBXKAVYNQOUTJRWT7K  --unattended
+  ansible.builtin.shell: ./config.sh --url https://github.com/thippareddyom --token {{runner_token }}  --unattended
   args: 
     chdir: /actions-runner
   become_user: github
