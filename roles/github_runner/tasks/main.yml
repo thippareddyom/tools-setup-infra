@@ -27,8 +27,9 @@
 
 - name: Get GitHub runner token
   amazon.aws.ssm_parameter:
-    name: /github/runner/token
+    name: "/github/runner/token"
     with_decryption: yes
+    region: us-east-1
   register: runner_token
 
 - name: configure github runner
