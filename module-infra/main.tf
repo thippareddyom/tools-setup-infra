@@ -42,5 +42,23 @@ resource "aws_route53_record" "public" {
   name = "${var.name}"
 }
 
+resource "null_resource" "local" {
+  
+  provisioner "remote-exec" {
+    connection {
+      type = "ssh"
+      user = "ec2-user"
+      password = "DevOps321"
+      host = aws_instance.tool.public_ip
+    }
+    inline = [ 
+      "sudo pip3.11 install ansible",
+      "sudo useradd github",
+      "sudo su github",
+      "cd /home/github",
+      "ansible-pull -i localhost, https://github.com/thippareddyom/tools-setup-infra.git set-up-tool.yml -e tool_name=github_runner -e runner_token=${var.runner_token}"
+     ]
+  }
+}
 
 

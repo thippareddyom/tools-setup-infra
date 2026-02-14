@@ -4,7 +4,7 @@ After=network-online.target
 
 [Service]
 ExecStart=/actions-runner/runsvc.sh
-User=github
+User=ec2-user
 WorkingDirectory=/actions-runner
 KillMode=process
 KillSignal=SIGTERM
